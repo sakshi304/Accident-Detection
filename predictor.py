@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 
 
-def predictor(img):
+def predict(img):
     im=Image.open(img).resize((250,250))
     img_array = tf.keras.utils.img_to_array(im)
     img_batch = np.expand_dims(img_array, axis=0)
@@ -18,8 +18,9 @@ def predictor(img):
     interpreter.set_tensor(input_details[0]['index'], img_batch)
     interpreter.invoke()
     tflite_model_predictions = interpreter.get_tensor(output_details[0]['index'])
-    print("Prediction results:")
+    # print("Prediction results:")
     if((tflite_model_predictions[0][1]  > 0.5).astype("int32")==0):
         return("Accident Detected")
     else:
         return("No Accident")
+
